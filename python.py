@@ -87,3 +87,6 @@ list_cpy = list_org.copy()
 list_cpy.append("date")
 print(list_org)
 print(list_cpy)
+
+print(type(list_org))
+print(type(list_cpy))
