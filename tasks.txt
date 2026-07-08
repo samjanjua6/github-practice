@@ -1,0 +1,45 @@
+Work through each task in order. Take real notes — you'll be explaining at least one of these back to me at check-in.
+Following on from this morning's session (ML → DL → LLMs → agents overview). Today you go one layer deeper on two things: how CNNs see images, and what actually happens between you hitting "send" and text streaming back from an LLM.
+
+Task 1 — CNN Basics
+Learn:
+- What a convolution actually does — a filter/kernel sliding over an image, producing a feature map
+- Why CNNs use filters instead of connecting every pixel to every neuron (parameter sharing, local receptive fields)
+- Pooling (max pooling vs average pooling)
+- Stride and padding
+- How stacking conv layers builds up from edges → textures → shapes → objects
+
+Task 2 — Tokenizers
+Learn:
+- Why models don't see words — they see tokens (subword pieces via Byte-Pair Encoding / BPE or similar)
+- Why the same word can tokenize differently depending on spacing, casing, or language
+- Why token count directly drives cost and context-window usage
+- How to actually count tokens for a given prompt using the provider's tokenizer
+
+Task 3 — Caching (Prompt Caching & KV Cache)
+Learn:
+- What happens under the hood during generation: the model builds "key" and "value" vectors for every token it's seen (the KV cache) so it doesn't recompute attention from scratch for each new token
+- Why this makes generation get relatively faster as a conversation goes on for the next token, but the first token of a long prompt is still expensive
+- Prompt caching (the product-level feature): reusing a stable prefix (system prompt, tool definitions, long context) across multiple API calls so you don't re-pay for those tokens every time
+
+Resources:
+- Anthropic docs: prompt caching
+- OpenAI docs: prompt caching
+- (Optional, more technical) any short explainer on "KV cache" in transformer inference
+
+Task 4 — Response Generation
+Learn:
+- Autoregressive generation: the model predicts one token, appends it to the input, and predicts the next — repeat until done
+- Why this means latency scales with output length, not input length (mostly)
+- Decoding strategies at a high level: greedy decoding vs sampling (temperature/top-p, from our earlier session) vs beam search
+- Stop conditions: stop sequences, max token limits, and what happens when a response gets cut off mid-generation
+- Streaming: why providers stream tokens back instead of waiting for the full response, and where you've already seen this (ChatGPT/Claude's typing effect)
+
+Task 5 — Python Data Types (Mutable vs Immutable)
+Learn:
+- Core built-in types: int, float, str, bool, list, tuple, dict, set
+- Mutable vs immutable: what it actually means for a type to be mutable (can change in place) vs immutable (any "change" creates a new object) — e.g. list vs tuple, dict vs frozenset, str being immutable
+- Why this matters in practice: passing objects into functions, unexpected shared-reference bugs (e.g. two variables pointing to the same mutable list), and using immutable types as dict keys / set members
+- Arrays vs lists: Python's built-in list vs array module vs NumPy arrays — when each is used
+- Dictionaries: key-value structure, why keys must be hashable (and therefore immutable), common dict methods
+- id() and is vs == — checking object identity vs equality to see mutability effects firsthand
